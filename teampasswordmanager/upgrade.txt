@@ -1,0 +1,92 @@
+Upgrade instructions for this version of Team Password Manager
+
+Please check online for the newest version of this document: https://teampasswordmanager.com/docs/upgrade/
+
+IMPORTANT NOTES: this version of Team Password Manager:
+	- Requires PHP 8.0 - 8.2.
+	- Uses the SourceGuardian Loader instead of the Ioncube Loader.
+
+Check also if your server meets all the requirements (https://teampasswordmanager.com/docs/requirements/) for the new version you're installing.
+
+Note if you're using LDAP: before doing anything check that you have a user with Admin/IT role that doesn't 
+authenticate using LDAP (and check that you can sign in). If, for any reason, LDAP doesn't work with the new version, 
+you'll be able to upgrade with this Admin/IT user.
+
+To upgrade your installation of Team Password Manager to the latest version
+follow the next steps.
+
+As a safety measure, make a complete backup of your current installation of 
+Team Password Manager before executing these steps. Be sure to backup the files and
+also the database tables: https://teampasswordmanager.com/docs/backup/
+
+0. Install the SourceGuardian Loader:
+
+	- Check to see if it's already installed: create a php file on your server (ex: phpinfo.php) 
+	with the following command: 
+	
+	<?php phpinfo(); ?> 
+	
+	and open it with your browser. If the SourceGuardian Loader is installed you should see the SourceGuardian configuration block.
+
+	If the SourceGuardian Loader is not installed, install it:
+	
+	- Go to the SourceGuardian Loader Assistant located at this page and follow the instructions: https://www.sourceguardian.com/loaders/download.php
+	
+	- Important: at the end of this step (or at the end of the install process), make sure you delete
+	  the phpinfo file. It is not needed for Team Password Manager to run and it's giving away
+	  information about your server.
+
+1. Download the latest version of Team Password Manager 
+from https://teampasswordmanager.com/download/
+
+2. Decompress the downloaded file on your computer. You'll get a bunch of files and folders. 
+The important ones are the 'css', 'system', 'uploads' and 'wmm' folders, and the 'index.php' file.
+
+3. Replace the 'css', 'system' and 'wmm' folders and the 'index.php' file from your 
+installation of Team Password Manager with the new ones. If required, delete the
+old ones and upload the new ones.
+
+Notes:
+
+- Be careful not to overwrite the config.php and folder.php files and the uploads folder.
+- Language files are located in the wmm/language folder. The Team Password Manager zip file includes only the English (en) files, so copy the ones you need in this folder. You can get all the available language packs in the language packs page. If you've created custom language files, be sure to back them up before replacing the wmm folder.
+
+4. If you don't have a folder called 'import', copy it from the decompressed files and make 
+it writable by the web server (give it 755 permissions). If this folder already exists, make sure it is writable.
+
+5. If you don't have a folder called 'uploads', copy it from the decompressed files and make 
+it writable by the web server (give it 755 permissions). If this folder already exists, make sure it is writable. 
+
+6. Execute the upgrade procedure by pointing your browser to 
+web_location_of_teampasswordmanager_files/index.php/upgrade (Example:
+http://teampasswordmanager.mydomain.com/index.php/upgrade) and follow the 
+instructions. If you get a blank screen instead, it's possible that you need to update the Sourceguardian loader. Please check the
+logs in this case.
+
+* Important notes
+
+- We advise you to delete the following files from your Team Password Manager folder: install.txt, eula.txt and upgrade.txt.
+
+- If you're using Apache 2 with FPM/FastCGI:
+	1. Set this parameter in config.php: define('TPM_URI_PROTOCOL', 'PATH_INFO');. More information on TPM_URI_PROTOCOL.
+	2. Set cgi.fix_pathinfo=1 in php.ini (Restart Apache after doing changes in php.ini).
+	3. If you want to use the API, put this directive in the virtualhosts file or .htaccess (in the root of TPM): 
+		SetEnvIf Authorization .+ HTTP_AUTHORIZATION=$0
+
+- If you're using Apache 2 with CGI/FastCGI:
+	1. Set cgi.fix_pathinfo=1 in php.ini (Restart Apache after doing changes in php.ini).
+	2. If you want to use the API, put this directive in the virtualhosts file or .htaccess (in the root of TPM): 
+		SetEnvIf Authorization .+ HTTP_AUTHORIZATION=$0
+
+- If you're using IIS:
+	1. Set cgi.fix_pathinfo=1 in php.ini.
+	2. Allow double escaping.
+
+- If you're using NGINX, use this in your configuration file:
+	location / {
+		try_files $uri $uri/ /index.php;
+	}
+
+
+*** END OF THE UPGRADE DOCUMENT ***
+
