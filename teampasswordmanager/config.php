@@ -3,7 +3,7 @@
 // Set these database parameters before installing Team Password Manager
 
 // MySQL Database server
-define('CONFIG_HOSTNAME', 'localhost');	
+define('CONFIG_HOSTNAME', 'db');	
 
 // User that accesses the database server, that should have all privileges on the database CONFIG_DATABASE
 define('CONFIG_USERNAME', 'tpmuser');
